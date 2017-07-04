@@ -23,7 +23,7 @@ function getRequestOptions() {
 //function to request url
 function getRepoContributors(repoOwner, repoName, cb) {
   request(getRequestOptions(), function (error, response, body) {
-  // added conditional statement to give error message if repoOwner or repoNme are missing.
+  // added conditional statement to give error message if repoOwner or repoName are missing.
     if (repoOwner || repoName === null) {
   console.log('Error, must provide more information');
   return;
@@ -31,7 +31,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     try {
       // convert body response into javascript object
       const data = JSON.parse(body);
-     // called the callback function, first peramater is null second is the data
+     // called the callback function
       cb(null, data);
 
     } catch (err) {
@@ -42,7 +42,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 getRepoContributors(repoO, repoN, function(err, result) {
  // loop to iterate through contributors and list the avatar_url and login name
- // created a filePath to save imaged locally.
+ // created a filePath to save images locally.
  // called downloadImageByUrl functon to download contributors avators.
 
   for (i = 0; i < result.length; i ++) {
@@ -57,6 +57,7 @@ getRepoContributors(repoO, repoN, function(err, result) {
 
 });
 
+//callback function
 
 function downloadImageByURL(url, filePath ) {
   request.get(url)
