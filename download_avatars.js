@@ -21,9 +21,13 @@ function getRequestOptions() {
 }
 
 //function to request url
-
 function getRepoContributors(repoOwner, repoName, cb) {
   request(getRequestOptions(), function (error, response, body) {
+  // added conditional statement to give error message if repoOwner or repoNme are missing.
+    if (repoOwner || repoName === null) {
+  console.log('Error, must provide more information');
+  return;
+ }
     try {
       // convert body response into javascript object
       const data = JSON.parse(body);
