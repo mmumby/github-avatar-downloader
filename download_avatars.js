@@ -33,10 +33,16 @@ function getRepoContributors(repoOwner, repoName, cb) {
 }
 
 getRepoContributors("jquery", "jquery", function(err, result) {
- // loop to iterate through contributors and list only the avatar_url
+ // loop to iterate through contributors and list the avatar_url and login name
+ // created a filePath to save imaged locally.
+ // called downloadImageByUrl functon to download contributors avators.
+
   for (i = 0; i < result.length; i ++) {
        const avatar_url = result[i].avatar_url;
-       console.log(avatar_url);
+       const loginName = result[i].login;
+       const filePath = ('./avatars/' + loginName + '.png');
+
+       downloadImageByURL(avatar_url, filePath);
       }
   console.log('the callback ran');
   console.log("Errors:", err);
@@ -44,7 +50,7 @@ getRepoContributors("jquery", "jquery", function(err, result) {
 });
 
 
-function downloadImageByURL(url, filePath) {
+function downloadImageByURL(url, filePath ) {
   request.get(url)
        .on('error', function (err) {
          throw err;
@@ -58,5 +64,4 @@ function downloadImageByURL(url, filePath) {
        .pipe(fs.createWriteStream(filePath));
 }
 
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/mmumby.jpg");
 
