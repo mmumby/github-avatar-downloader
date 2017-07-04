@@ -1,11 +1,15 @@
 const request = require('request');
 const fs = require('fs');
+//added process.argv to function
+const repoO = process.argv[2];
+const repoN = process.argv[3];
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRequestOptions() {
   return {
-    uri: 'https://api.github.com/repos/jquery/jquery/contributors',
+    //updated uri to work with process.argv variable
+    uri: 'https://api.github.com/repos/' + repoO + "/" + repoN + '/contributors',
     headers: {
       'User-Agent': 'mmumby'
     },
@@ -32,7 +36,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
   });
 }
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(repoO, repoN, function(err, result) {
  // loop to iterate through contributors and list the avatar_url and login name
  // created a filePath to save imaged locally.
  // called downloadImageByUrl functon to download contributors avators.
