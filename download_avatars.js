@@ -21,10 +21,11 @@ function getRequestOptions() {
 function getRepoContributors(repoOwner, repoName, cb) {
   request(getRequestOptions(), function (error, response, body) {
     try {
+      // convert body response into javascript object
       const data = JSON.parse(body);
       console.log('Just called the callback');
-
-      cb(data);
+     // called the callback function, first peramater is null second is the data
+      cb(null, data);
 
     } catch (err) {
       console.log('failed to parse content body')
@@ -33,7 +34,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
 }
 
 getRepoContributors("jquery", "jquery", function(err, result) {
+ // loop to iterate through contributors and list only the avatar_url
+  for (i = 0; i < result.length; i ++) {
+       const avatar_url = result[i].avatar_url;
+       console.log(avatar_url);
+      }
   console.log('the callback ran');
   console.log("Errors:", err);
-  console.log("Result:", result);
+
 });
