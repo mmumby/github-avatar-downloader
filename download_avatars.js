@@ -23,7 +23,6 @@ function getRepoContributors(repoOwner, repoName, cb) {
     try {
       // convert body response into javascript object
       const data = JSON.parse(body);
-      console.log('Just called the callback');
      // called the callback function, first peramater is null second is the data
       cb(null, data);
 
@@ -43,3 +42,21 @@ getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
 
 });
+
+
+function downloadImageByURL(url, filePath) {
+  request.get(url)
+       .on('error', function (err) {
+         throw err;
+       })
+       .on('response', function (response) {
+         console.log('Response Status Code: ', response.statusCode);
+         console.log(response.headers['content-type']);
+         console.log('Downloading image...');
+         console.log('Download complete.');
+       })
+       .pipe(fs.createWriteStream(filePath));
+}
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/mmumby.jpg");
+
