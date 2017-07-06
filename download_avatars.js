@@ -17,7 +17,7 @@ function getRequestOptions() {
     qs: {
       access_token: process.env.GITHUB_ACCESS_TOKEN
     }
-  }
+  };
 }
 
 //function to request url
@@ -25,33 +25,33 @@ function getRepoContributors(repoOwner, repoName, cb) {
   request(getRequestOptions(), function (error, response, body) {
   // added conditional statement to give error message if repoOwner or repoName are missing.
     if (repoOwner || repoName === null) {
-  console.log('Error, must provide more information');
-  return;
- }
+      console.log('Error, must provide more information');
+      return;
+    }
     try {
       // convert body response into javascript object
       const data = JSON.parse(body);
-     // called the callback function
+      // called the callback function
       cb(null, data);
 
     } catch (err) {
-      console.log('failed to parse content body')
+      console.log('failed to parse content body');
     }
   });
 }
 
 getRepoContributors(repoO, repoN, function(err, result) {
- // loop to iterate through contributors and list the avatar_url and login name
- // created a filePath to save images locally.
- // called downloadImageByUrl functon to download contributors avators.
+  // loop to iterate through contributors and list the avatar_url and login name
+  // created a filePath to save images locally.
+  // called downloadImageByUrl functon to download contributors avators.
 
   for (i = 0; i < result.length; i ++) {
-       const avatar_url = result[i].avatar_url;
-       const loginName = result[i].login;
-       const filePath = ('./avatars/' + loginName + '.png');
+    const avatar_url = result[i].avatar_url;
+    const loginName = result[i].login;
+    const filePath = ('./avatars/' + loginName + '.png');
 
-       downloadImageByURL(avatar_url, filePath);
-      }
+    downloadImageByURL(avatar_url, filePath);
+  }
   console.log('the callback ran');
   console.log("Errors:", err);
 
@@ -61,16 +61,16 @@ getRepoContributors(repoO, repoN, function(err, result) {
 
 function downloadImageByURL(url, filePath ) {
   request.get(url)
-       .on('error', function (err) {
-         throw err;
-       })
-       .on('response', function (response) {
-         console.log('Response Status Code: ', response.statusCode);
-         console.log(response.headers['content-type']);
-         console.log('Downloading image...');
-         console.log('Download complete.');
-       })
-       .pipe(fs.createWriteStream(filePath));
+    .on('error', function (err) {
+      throw err;
+    })
+    .on('response', function (response) {
+      console.log('Response Status Code: ', response.statusCode);
+      console.log(response.headers['content-type']);
+      console.log('Downloading image...');
+      console.log('Download complete.');
+    })
+    .pipe(fs.createWriteStream(filePath));
 }
 
 
